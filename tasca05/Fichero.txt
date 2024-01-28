@@ -1,0 +1,13 @@
+
+aaa.txt (F)	Sun Nov 19 16:04:36 CET 2023
+bbb.txt (F)	Sun Nov 19 16:04:36 CET 2023
+C1 (D)	Sun Nov 19 18:17:24 CET 2023
+C1F1.txt (F)	Sun Nov 19 16:04:37 CET 2023
+C1F2.txt (F)	Sun Nov 19 16:04:37 CET 2023
+C2 (D)	Sun Nov 19 18:17:24 CET 2023
+C2C (D)	Sun Nov 19 18:17:24 CET 2023
+C2CF.txt (F)	Sun Nov 19 16:04:37 CET 2023
+C2F.txt (F)	Sun Nov 19 16:04:37 CET 2023
+ccc.txt (F)	Sun Nov 19 16:04:37 CET 2023
+ddd.txt (F)	Sun Nov 19 16:04:37 CET 2023
+eee.txt (F)	Sun Nov 19 16:04:37 CET 2023

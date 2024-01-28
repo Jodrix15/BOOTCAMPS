@@ -1,0 +1,6 @@
+Para poder ejecutar un programa desde una terminal seguimos los siguientes pasos:
+1. Accedemos desde la terminal a la ubicación donde se encuentre el programa
+2. Antes de ejecutar debemos compilar con el siguiente comando:
+        javac "nombre_fichero".java "nombre_fichero2".java ... etc (lo pondremos tantas veces como archivos tenga nuestro programa)
+3. Para ejecutar usamos el comando:
+        java "fichero_main".java
