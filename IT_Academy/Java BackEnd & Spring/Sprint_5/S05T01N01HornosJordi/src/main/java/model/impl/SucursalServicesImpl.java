@@ -1,72 +1,66 @@
 package model.impl;
 
 
-import model.SucursalModel;
-import model.SucursalRepository;
-import model.SucursalService;
+import Execption.SucursalNotFoundException;
+import model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Optional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SucursalServicesImpl implements SucursalService {
 
-   private SucursalRepository sucursalRepository;
-
-   public SucursalServicesImpl(SucursalRepository sucursalRepository){
-       this.sucursalRepository = sucursalRepository;
-   }
+    @Autowired
+    private SucursalRepository sucursalRepository;
 
     @Override
-    public void addSucursal(Sucursal sucursal) {
-       sucursalRepository.save(sucursal);
+    public List<SucursalDTO> getAllSucursales() {
+        List<Sucursal> sucursales = sucursalRepository.findAll();
+        return sucursales.stream().map(SucursalMapper.MAPPER::sucursal2DTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Sucursal getOneSucursal(Integer id) {
+        return sucursalRepository.findById(id)
+                .orElseThrow(() -> new SucursalNotFoundException("Sucursal no encontrada con id: " + id));
+    }
+
+    @Override
+    public SucursalDTO addSucursal(SucursalDTO sucursalDTO) {
+        Sucursal sucursal = SucursalMapper.MAPPER.DTO2Sucursal(sucursalDTO);
+        Sucursal saveSucursal = sucursalRepository.save(sucursal);
+
+        return SucursalMapper.MAPPER.sucursal2DTO(saveSucursal);
+    }
+
+    @Override
+    public SucursalDTO updateSucursal(Integer id, SucursalDTO sucursalDTO) {
+        Sucursal sucursal = sucursalRepository.findById(id).orElseThrow(()-> new SucursalNotFoundException("sucursal no encontrada"));
+        sucursal.setNameSucursal(sucursalDTO.getNameSucursal());
+        sucursal.setPaisSucursal(sucursalDTO.getPaisSucursal());
+        Sucursal updateSucursal = sucursalRepository.save(sucursal);
+        return SucursalMapper.MAPPER.sucursal2DTO(updateSucursal);
+    }
+
+    @Override
+    public void deleteSucursal(Integer id) {
+        sucursalRepository.deleteById(id);
 
     }
 
     @Override
-    public void updateSucursal(Sucursal sucursal) {
-       sucursalRepository.save(sucursal);
-
+    public Sucursal findByName(String nameBranch) {
+        return sucursalRepository.findByNameSucursal(nameBranch);
     }
 
     @Override
-    public void deleteSucursal(Long id) {
-        Optional<Sucursal> sucursal = sucursalRepository.findById(id);
-        if(sucursal.isPresent()){
-            sucursalRepository.deleteById(id);
-        }
-        else{
-            throw new EntityNotFoundException();
-        }
-
-    }
-
-    @Override
-    public Sucursal getOneSucursal(Long id) {
-        Optional<Sucursal> sucursal = sucursalRepository.findById(id);
-        if(sucursal.isPresent()){
-            return sucursal.get();
-        }
-        else{
-            throw new EntityNotFoundException();
-    }
-
-    @Override
-    public List<SucursalDTO> getAllSucursal() {
-        List<SucursalDTO> allSucursalDTO = new ArrayList<>();
-        sucursalRepository.findAll().forEach(s-> allSucursalDTO.add(sucursalToDTO(s)));
-        return allSucursalDTO;
-    }
-
-    @Override
-    public SucursalDTO sucursalToDTO(Sucursal sucursal) {
-        return new SucursalDTO(sucursal);
-    }
-
-    @Override
-    public Sucursal findByName(String nombreSucursal) {
-        return sucursalRepository.findByNomSucursal(nom_sucursal);
+    public SucursalDTO findById(Integer id) {
+        Sucursal sucursal = sucursalRepository.findById(id)
+                .orElseThrow(()->new SucursalNotFoundException("sucursal no encontrada"));
+        return SucursalMapper.MAPPER.sucursal2DTO(sucursal);
     }
 }

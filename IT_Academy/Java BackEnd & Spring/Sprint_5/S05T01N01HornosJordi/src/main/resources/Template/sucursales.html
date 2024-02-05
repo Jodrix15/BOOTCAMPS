@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"  lang="en"  >
+<head>
+    <meta charset="UTF-8">
+    <title>List of Bank Branches</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+</head>
+<body>
+
+<div th:if="${deleted != null}" class="alert alert-warning" th:text="${deleted}"></div>
+<header>
+    <h1> <strong>SUCURSALES</strong> </h1>
+</header>
+
+<nav class = "navbar navbar-expand-md bg-dark navbar-dark" >
+
+        <a  class="navbar-brand" href="http://localhost:63342/S05T01N01HornosJordi/IT_Academy/Java%20BackEnd%20&%20Spring/Sprint_5/S05T01N01HornosJordi/src/main/resources/Template/verSucursales.html?_ijt=lmkf8pf9j3h8ul1euuo10et5ck&_ij_reload=RELOAD_ON_SAVE" th:href="@{/sucursalapi/v1/sucursales/getOne/{id}(id=${sucursal.id})}" > Info </a>
+      <a class="navbar-brand" href="http://localhost:63342/S05T01N01HornosJordi/IT_Academy/Java%20BackEnd%20&%20Spring/Sprint_5/S05T01N01HornosJordi/src/main/resources/Template/actualizar.html?_ijt=ejg70g9192o07879q9e45utfde&_ij_reload=RELOAD_ON_SAVE" th:href="@{/sucursalapi/v1/sucursales/update/{id}(id=${sucursal.id})}" > Actualizar </a>
+    <a  class="navbar-brand" href="#" th:href="@{/sucursalapi/v1/sucursales/delete/{id}(id=${sucursal.id})}" > Eliminar </a>
+       <a class="navbar-brand" href="http://localhost:63342/S05T01N01HornosJordi/IT_Academy/Java%20BackEnd%20&%20Spring/Sprint_5/S05T01N01HornosJordi/src/main/resources/Template/crearSucursal.html?_ijt=j0tisokfgeb2itt0misb5lchsm&_ij_reload=RELOAD_ON_SAVE" th:href="@{/sucursalapi/v1/sucursales/crearSucursal}"> Añadir </a>
+
+
+</nav>
+<br>
+<section>
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-3"></div>
+        </div>
+        <br>
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+            <tr>
+                <th> Nombre </th>
+                <th> País </th>
+                <th> Tipo </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each=" sucursal: ${sucursales}">
+                <td th:text="${sucursal.nameSucursal}" >  </td>
+                <td th:text="${sucursal.paisSucursal}">  </td>
+                <td th:text="${sucursal.tipoSucursal}">  </td>
+                <td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+<div th:if="${notFoundError}" class="alert alert-danger" role="alert">
+    <p th:text="${notFoundError}">Default error message</p>
+</div>
+</body>
+</html>

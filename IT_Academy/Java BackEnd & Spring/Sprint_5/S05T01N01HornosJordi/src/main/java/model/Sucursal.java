@@ -4,16 +4,16 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name="sucursales")
-public class SucursalModel {
+public class Sucursal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer pk_SucursalID;
 
-    @Column
-    private String nomSucursal;
+    @Column(name="nameSucursal", nullable= false, length=50)
+    private String nameSucursal;
 
-    @Column
+    @Column(name="paisSucursal", nullable= false, length=50)
     private String paisSucursal;
 
     public Integer getPk_SucursalID() {
@@ -24,12 +24,12 @@ public class SucursalModel {
         this.pk_SucursalID = pk_SucursalID;
     }
 
-    public String getNomSucursal() {
-        return nomSucursal;
+    public String getNameSucursal() {
+        return nameSucursal;
     }
 
-    public void setNomSucursal(String nomSucursal) {
-        this.nomSucursal = nomSucursal;
+    public void setNameSucursal(String nameSucursal) {
+        this.nameSucursal = nameSucursal;
     }
 
     public String getPaisSucursal() {

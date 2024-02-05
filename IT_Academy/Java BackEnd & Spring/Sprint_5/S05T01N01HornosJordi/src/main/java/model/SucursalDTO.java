@@ -1,66 +1,37 @@
 package model;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class SucursalDTO {
-    private final static List<String> countriesEU = new ArrayList<>(Arrays.asList("Austria", "Belgium", "Bulgaria", "Croatia", "Republic of Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Ireland", "Italy", "Latvia", "Lithuania", "Luxembourg", "Malta", "Netherlands", "Poland", "Portugal", "Romania", "Slovakia", "Slovenia", "Spain", "Sweden"));
-    private Integer pk_SucursalID;
-    private String nomSucursal;
+    @Setter
+    @Getter
+    private Integer id;
+
+    @Getter
+    @Setter
     private String paisSucursal;
-    private String tipusSucursal;
 
-    public SucursalDTO() {
+    @Getter
+    @Setter
+    private String nameSucursal;
 
-    }
-    public SucursalDTO(Sucursal sucursal){
-        this.pk_SucursalID = sucursal.getPk_SucursalID();
-        this.nomSucursal = sucursal.getNomSucursal();
-        String pais = sucursal.getPaisSucursal().toLowerCase();
-        this.paisSucursal = StringUtils.capitalizeWords(pais);
-        this.tipusSucursal = tipusPaisSucursal();
-    }
+    @Getter
+    @Setter
+    private String tipoSucursal;
+    private final static ArrayList<String> eu_paises = new ArrayList<>(Arrays.asList("Austria","Belgium","Bosnia and Herzegovina","Bulgaria","Croatia","Cyprus","Czech Republic","Denmark","Estonia","Finland","France","Georgia","Germany","Greece","Hungary","Iceland","Ireland","Italy","Spain"));
 
-    public Integer getPk_SucursalID() {
-        return pk_SucursalID;
+    public SucursalDTO(){
+        this.tipoSucursal = isEuPais(paisSucursal)? "UE": "NOT UE";
     }
 
-    public void setPk_SucursalID(Integer pk_SucursalID) {
-        this.pk_SucursalID = pk_SucursalID;
+    public static boolean isEuPais(String pais){
+        return eu_paises.contains(pais);
     }
 
-    public String getNomSucursal() {
-        return nomSucursal;
-    }
 
-    public void setNomSucursal(String nomSucursal) {
-        this.nomSucursal = nomSucursal;
-    }
-
-    public String getPaisSucursal() {
-        return paisSucursal;
-    }
-
-    public void setPaisSucursal(String paisSucursal) {
-        this.paisSucursal = paisSucursal;
-    }
-
-    private String tipusPaisSucursal() {
-        if(isEU(this.paisSucursal)){
-            return "EU";
-        }
-        else {
-            return  "Non EU";
-        }
-    }
-
-    public String getTipusSucursal() {
-        return tipusSucursal;
-    }
-
-    public void setTipusSucursal(String tipusSucursal) {
-        this.tipusSucursal = tipusSucursal;
-    }
-
-    private boolean isEU(String country) {
-        return countriesEU.contains(country);
-    }
 }
-}
+
