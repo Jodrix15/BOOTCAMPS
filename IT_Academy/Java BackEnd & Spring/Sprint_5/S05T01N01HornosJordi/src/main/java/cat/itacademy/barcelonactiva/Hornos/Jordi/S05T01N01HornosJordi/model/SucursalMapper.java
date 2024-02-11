@@ -1,6 +1,4 @@
-package model;
-import model.SucursalDTO;
-import model.Sucursal;
+package cat.itacademy.barcelonactiva.Hornos.Jordi.S05T01N01HornosJordi.model;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

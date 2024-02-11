@@ -1,16 +1,13 @@
-package controller;
+package cat.itacademy.barcelonactiva.Hornos.Jordi.S05T01N01HornosJordi.controller;
 
-import model.Sucursal;
-import model.SucursalDTO;
-import model.SucursalMapper;
-import model.SucursalService;
-import model.impl.SucursalServicesImpl;
+import cat.itacademy.barcelonactiva.Hornos.Jordi.S05T01N01HornosJordi.model.Sucursal;
+import cat.itacademy.barcelonactiva.Hornos.Jordi.S05T01N01HornosJordi.model.SucursalDTO;
+import cat.itacademy.barcelonactiva.Hornos.Jordi.S05T01N01HornosJordi.model.SucursalMapper;
+import cat.itacademy.barcelonactiva.Hornos.Jordi.S05T01N01HornosJordi.model.SucursalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -68,7 +65,7 @@ public class SucursalController {
     @GetMapping("/sucursales")
     public String sucursalesList(Model model){
         List<SucursalDTO> list = sucursalService.getAllSucursales();
-        model.addAttribute("Sucursales", list);
+        model.addAttribute("sucursales", list);
         return "sucursales";
     }
 

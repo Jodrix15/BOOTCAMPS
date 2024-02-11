@@ -1,4 +1,4 @@
-package model;
+package cat.itacademy.barcelonactiva.Hornos.Jordi.S05T01N01HornosJordi.model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +9,7 @@ import java.util.Arrays;
 public class SucursalDTO {
     @Setter
     @Getter
-    private Integer id;
+    private Integer pk_SucursalID;
 
     @Getter
     @Setter

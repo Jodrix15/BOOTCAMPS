@@ -1,4 +1,4 @@
-package model;
+package cat.itacademy.barcelonactiva.Hornos.Jordi.S05T01N01HornosJordi.model;
 
 import jakarta.persistence.*;
 

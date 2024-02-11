@@ -1,8 +1,8 @@
-package model.impl;
+package cat.itacademy.barcelonactiva.Hornos.Jordi.S05T01N01HornosJordi.model.impl;
 
 
-import Execption.SucursalNotFoundException;
-import model.*;
+import cat.itacademy.barcelonactiva.Hornos.Jordi.S05T01N01HornosJordi.Execption.SucursalNotFoundException;
+import cat.itacademy.barcelonactiva.Hornos.Jordi.S05T01N01HornosJordi.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
