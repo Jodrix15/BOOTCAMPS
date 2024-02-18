@@ -6,22 +6,24 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+@Setter
+@Getter
 public class SucursalDTO {
-    @Setter
-    @Getter
-    private Integer pk_SucursalID;
+    private Integer id;
 
-    @Getter
-    @Setter
     private String paisSucursal;
 
-    @Getter
-    @Setter
     private String nameSucursal;
 
-    @Getter
-    @Setter
     private String tipoSucursal;
+
+    public SucursalDTO(Integer id, String nameSucursal, String paisSucursal) {
+        this.id = id;
+        this.nameSucursal = nameSucursal;
+        this.paisSucursal = paisSucursal;
+        tipoSucursal = isEuPais(paisSucursal)? "UE": "NOT UE";
+
+    }
     private final static ArrayList<String> eu_paises = new ArrayList<>(Arrays.asList("Austria","Belgium","Bosnia and Herzegovina","Bulgaria","Croatia","Cyprus","Czech Republic","Denmark","Estonia","Finland","France","Georgia","Germany","Greece","Hungary","Iceland","Ireland","Italy","Spain"));
 
     public SucursalDTO(){

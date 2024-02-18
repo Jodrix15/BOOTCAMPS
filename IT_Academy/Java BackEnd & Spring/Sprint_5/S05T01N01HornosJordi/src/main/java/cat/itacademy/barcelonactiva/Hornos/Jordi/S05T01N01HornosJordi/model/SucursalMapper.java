@@ -8,10 +8,10 @@ import org.mapstruct.factory.Mappers;
 public interface SucursalMapper {
     SucursalMapper MAPPER = Mappers.getMapper(SucursalMapper.class);
 
-    @Mapping(source = "pk_bankBranchId", target = "id")
+    @Mapping(source = "pk_SucursalID", target = "id")
     SucursalDTO sucursal2DTO(Sucursal sucursal);
 
-    @Mapping(source = "id", target = "pk_bankBranchId")
+    @Mapping(source = "id", target = "pk_SucursalID")
     Sucursal DTO2Sucursal(SucursalDTO sucursalDTO);
 
 
