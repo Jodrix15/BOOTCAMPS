@@ -2,6 +2,7 @@ package com.itacademy.barcelonactiva.HornosJordi.S5T01N02.controller;
 
 import com.itacademy.barcelonactiva.HornosJordi.S5T01N02.model.dto.GameDTO;
 import com.itacademy.barcelonactiva.HornosJordi.S5T01N02.model.dto.PlayerDTO;
+import com.itacademy.barcelonactiva.HornosJordi.S5T01N02.model.dto.request.PlayerDTORequest;
 import com.itacademy.barcelonactiva.HornosJordi.S5T01N02.model.services.PlayerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,24 +12,24 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:9000")
-@Controller
-@RequestMapping("diceapi/v1")
+@RestController
+@RequestMapping("diceapi/v1/diceGame")
 public class GameController {
 
-    private PlayerService playerService;
+    private final PlayerService playerService;
 
     public GameController(PlayerService playerService){
         this.playerService = playerService;
     }
 
     @PostMapping("/players")
-    public ResponseEntity<String> newPlayer(@RequestBody PlayerDTO playerDTO){
+    public ResponseEntity<String> newPlayer(@RequestBody PlayerDTORequest playerDTO){
         playerService.addPlayer(playerDTO);
         return new ResponseEntity<>("Jugador creado correctamente", HttpStatus.CREATED);
     }
 
-    @PutMapping("/players")
-    public ResponseEntity<String> modificarPlayer(@PathVariable("id") Integer id, @RequestBody PlayerDTO playerDTO){
+    @PutMapping("/players/{id}")
+    public ResponseEntity<String> modificarPlayer(@PathVariable("id") Integer id, @RequestBody PlayerDTORequest playerDTO){
         playerService.updatePlayer(id, playerDTO);
         return new ResponseEntity<>("Jugador modificado correctamente", HttpStatus.OK);
     }

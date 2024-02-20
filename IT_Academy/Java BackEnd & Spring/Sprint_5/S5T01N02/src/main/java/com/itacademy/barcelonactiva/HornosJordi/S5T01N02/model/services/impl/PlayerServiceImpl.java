@@ -6,6 +6,7 @@ import com.itacademy.barcelonactiva.HornosJordi.S5T01N02.exception.UsernameInUse
 import com.itacademy.barcelonactiva.HornosJordi.S5T01N02.model.domain.Player;
 import com.itacademy.barcelonactiva.HornosJordi.S5T01N02.model.dto.GameDTO;
 import com.itacademy.barcelonactiva.HornosJordi.S5T01N02.model.dto.PlayerDTO;
+import com.itacademy.barcelonactiva.HornosJordi.S5T01N02.model.dto.request.PlayerDTORequest;
 import com.itacademy.barcelonactiva.HornosJordi.S5T01N02.model.repository.PlayerRepository;
 import com.itacademy.barcelonactiva.HornosJordi.S5T01N02.model.services.GameServices;
 import com.itacademy.barcelonactiva.HornosJordi.S5T01N02.model.services.PlayerService;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PlayerServiceImpl implements PlayerService {
@@ -41,7 +43,7 @@ public class PlayerServiceImpl implements PlayerService {
     public GameDTO playGame(Integer id) {
         Player player = getPlayer(id);
         GameDTO gameDTO = gameServices.addGame(player);
-        //
+        updateWinRate(player, gameDTO);
         return null;
     }
 
@@ -94,12 +96,12 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public void updatePlayer(Integer id, PlayerDTO playerDTO) {
+    public void updatePlayer(Integer id, PlayerDTORequest playerDTO) {
         Player player = getPlayer(id);
-        Player actualPlayer = playerRepository.findByPlayerName(playerDTO.getUsername());
-        if(actualPlayer != null){
-            if(player.getId() != actualPlayer.getId()){
-                throw new UsernameInUsedException("Nombre de usuario ya registrado");
+        Player playerEntityExisting = playerRepository.findByUserName(player.getUsername());
+        if(playerEntityExisting != null){
+            if(playerEntityExisting.getId() != player.getId()){
+                throw new UsernameInUsedException("username no disponible");
             }
         }
         player.setUsername(playerDTO.getUsername());
@@ -107,13 +109,13 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public void addPlayer(PlayerDTO player) {
+    public void addPlayer(PlayerDTORequest player) {
         playerRepository.save(DTO2Player(player));
 
     }
 
     @Override
-    public Player DTO2Player(PlayerDTO player) {
+    public Player DTO2Player(PlayerDTORequest player) {
         return new Player((player.getUsername()));
     }
 

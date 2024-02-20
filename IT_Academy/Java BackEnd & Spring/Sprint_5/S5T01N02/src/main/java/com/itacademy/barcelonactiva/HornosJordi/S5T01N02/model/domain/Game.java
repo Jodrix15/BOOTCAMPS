@@ -2,10 +2,16 @@ package com.itacademy.barcelonactiva.HornosJordi.S5T01N02.model.domain;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SourceType;
+
+import java.sql.Timestamp;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "games")
 public class Game {
@@ -23,7 +29,9 @@ public class Game {
     @Column(name="secondDice", nullable = false)
     private int dice2;
 
-    //timestamp
+    @Column(nullable = false, updatable = false, insertable = false)
+    @CreationTimestamp(source = SourceType.DB)
+    private Timestamp playedTime;
 
     public Game(Player player, int dice1, int dice2){
         this.player = player;

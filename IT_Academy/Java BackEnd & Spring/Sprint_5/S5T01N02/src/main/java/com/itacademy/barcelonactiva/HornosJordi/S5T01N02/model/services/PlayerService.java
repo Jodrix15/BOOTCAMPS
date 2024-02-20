@@ -3,6 +3,7 @@ package com.itacademy.barcelonactiva.HornosJordi.S5T01N02.model.services;
 import com.itacademy.barcelonactiva.HornosJordi.S5T01N02.model.domain.Player;
 import com.itacademy.barcelonactiva.HornosJordi.S5T01N02.model.dto.GameDTO;
 import com.itacademy.barcelonactiva.HornosJordi.S5T01N02.model.dto.PlayerDTO;
+import com.itacademy.barcelonactiva.HornosJordi.S5T01N02.model.dto.request.PlayerDTORequest;
 
 import java.util.List;
 
@@ -18,8 +19,8 @@ public interface PlayerService {
     public PlayerDTO getWinner();
     public PlayerDTO getLoser();
     public PlayerDTO player2DTO(Player player);
-    public void updatePlayer(Integer id, PlayerDTO player);
-    public void addPlayer(PlayerDTO player);
-    public Player DTO2Player(PlayerDTO player);
+    public void updatePlayer(Integer id, PlayerDTORequest player);
+    public void addPlayer(PlayerDTORequest player);
+    public Player DTO2Player(PlayerDTORequest player);
     
 }
