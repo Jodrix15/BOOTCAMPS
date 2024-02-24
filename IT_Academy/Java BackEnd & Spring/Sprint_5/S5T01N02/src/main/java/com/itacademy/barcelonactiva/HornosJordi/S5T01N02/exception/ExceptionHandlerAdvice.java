@@ -46,6 +46,6 @@ public class ExceptionHandlerAdvice {
     @ExceptionHandler(HttpMessageConversionException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<String> handleInvalidInput(HttpMessageConversionException ex){
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Input data format not supported");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El formato introducido no es correcto");
     }
 }

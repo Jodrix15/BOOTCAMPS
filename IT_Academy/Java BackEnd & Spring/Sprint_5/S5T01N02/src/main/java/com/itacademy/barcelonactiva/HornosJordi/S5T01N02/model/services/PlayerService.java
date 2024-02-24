@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface PlayerService {
 
+    public List<PlayerDTO> getAllPlayersDTO();
     public Player getPlayer(Integer id);
     public List<Player> getAllPlayers();
     public GameDTO playGame(Integer id);

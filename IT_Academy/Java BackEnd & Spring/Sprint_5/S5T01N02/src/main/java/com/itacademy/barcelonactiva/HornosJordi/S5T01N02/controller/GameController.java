@@ -46,6 +46,11 @@ public class GameController {
         return new ResponseEntity<>("Las partidas del jugador han sido eliminadas correctamente", HttpStatus.OK);
     }
 
+    @GetMapping("/allPlayers")
+    public ResponseEntity<List<PlayerDTO>> getAllPlayers(){
+        List<PlayerDTO> players = playerService.getAllPlayersDTO();
+        return new ResponseEntity<>(players, HttpStatus.OK);
+    }
     @GetMapping("/players")
     public ResponseEntity<List<PlayerDTO>> getWinRates(){
         List<PlayerDTO> rateList = playerService.getWinRates();

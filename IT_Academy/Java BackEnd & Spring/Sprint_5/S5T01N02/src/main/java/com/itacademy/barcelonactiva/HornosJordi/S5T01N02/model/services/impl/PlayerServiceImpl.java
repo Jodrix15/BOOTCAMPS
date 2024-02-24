@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PlayerServiceImpl implements PlayerService {
@@ -40,11 +39,19 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
+    public List<PlayerDTO> getAllPlayersDTO(){
+        List<Player> players = getAllPlayers();
+        List<PlayerDTO> playersDTO = new ArrayList<PlayerDTO>();
+        players.forEach(p -> playersDTO.add(new PlayerDTO(p.getUsername(), p.getWinRate())));
+        return playersDTO;
+    }
+
+    @Override
     public GameDTO playGame(Integer id) {
         Player player = getPlayer(id);
         GameDTO gameDTO = gameServices.addGame(player);
         updateWinRate(player, gameDTO);
-        return null;
+        return gameDTO;
     }
 
     @Override
@@ -64,12 +71,17 @@ public class PlayerServiceImpl implements PlayerService {
     public List<PlayerDTO> getWinRates() {
         List<Player> playersList = getAllPlayers();
         List<PlayerDTO> playersDTOList = new ArrayList<>();
-        playersList.forEach(p -> playersDTOList.add(new PlayerDTO(p.getUsername(), p.getWinRate())));
+        playersList.forEach(p -> {
+            if (p.getWinRate() != null){
+                playersDTOList.add(new PlayerDTO(p.getUsername(), p.getWinRate()));
+            }
+        });
         return playersDTOList;
     }
 
     @Override
     public double getAVGWinRates() {
+
         return getWinRates().stream().filter(p -> p.getWinRate() != null)
                 .mapToDouble(PlayerDTO::getWinRate).average()
                 .orElseThrow(() -> new GameNotFoundException("Juego no encontrado"));
@@ -79,14 +91,15 @@ public class PlayerServiceImpl implements PlayerService {
     public PlayerDTO getWinner() {
         return getWinRates().stream().filter(p -> p.getWinRate() != null)
                 .max(Comparator.comparing(PlayerDTO::getWinRate))
-                .orElseThrow(() -> new GameNotFoundException("El jugador no tiene ningun a partida jugada"));
+                .orElseThrow(() -> new GameNotFoundException("No hay partidas jugadas"));
     }
 
     @Override
+
     public PlayerDTO getLoser() {
         return getWinRates().stream().filter(p -> p.getWinRate() != null)
                 .min(Comparator.comparing(PlayerDTO::getWinRate))
-                .orElseThrow(() -> new GameNotFoundException("El jugador no tiene ninguna partida jugada"));
+                .orElseThrow(() -> new GameNotFoundException("No hay partidas jugadas"));
 
     }
 
@@ -98,19 +111,35 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public void updatePlayer(Integer id, PlayerDTORequest playerDTO) {
         Player player = getPlayer(id);
-        Player playerEntityExisting = playerRepository.findByUserName(player.getUsername());
+        Player playerEntityExisting = playerRepository.findByUsername(playerDTO.getUsername());
         if(playerEntityExisting != null){
-            if(playerEntityExisting.getId() != player.getId()){
+            if(playerEntityExisting.getUsername().equalsIgnoreCase(playerDTO.getUsername())){
                 throw new UsernameInUsedException("username no disponible");
             }
         }
         player.setUsername(playerDTO.getUsername());
         playerRepository.save(player);
+
     }
 
     @Override
-    public void addPlayer(PlayerDTORequest player) {
-        playerRepository.save(DTO2Player(player));
+    public void addPlayer(PlayerDTORequest playerDTO) {
+        if (playerDTO.getUsername() == null){
+            playerDTO.setUsername("ANONIMO");
+        }
+        if(!playerDTO.getUsername().equalsIgnoreCase("ANONIMO")){
+            Player playerEntityExisting = playerRepository.findByUsername(playerDTO.getUsername());
+
+            if(playerEntityExisting != null && !playerEntityExisting.getUsername().equalsIgnoreCase("ANONIMO")) {
+                if (playerEntityExisting.getUsername().equalsIgnoreCase(playerDTO.getUsername())) {
+                    throw new UsernameInUsedException("username no disponible");
+
+                }
+            }
+        }
+
+        Player player = new Player(playerDTO.getUsername());
+        playerRepository.save(player);
 
     }
 
@@ -121,7 +150,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     private void updateWinRate(Player player, GameDTO gameDTO){
         Float winRate = player.getWinRate();
-        float victory = 0;
+        float victory = 0.0f;
         if(gameDTO.isSeven()){
             victory = 1.0f;
         }
@@ -129,6 +158,7 @@ public class PlayerServiceImpl implements PlayerService {
             victory = 0.0f;
         }
         if(winRate == null){
+
             winRate = victory*100;
         }
         else{
@@ -136,6 +166,7 @@ public class PlayerServiceImpl implements PlayerService {
             int victories = (int) (winRate/(100*gamesPlayed));
             winRate = (victories + victory)*100/(gamesPlayed);
         }
+
         player.setWinRate(winRate);
         playerRepository.save(player);
 

@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface PlayerRepository extends JpaRepository<Player, Integer> {
-    Player findByUserName(String username);
+    Player findByUsername(String username);
 
 }

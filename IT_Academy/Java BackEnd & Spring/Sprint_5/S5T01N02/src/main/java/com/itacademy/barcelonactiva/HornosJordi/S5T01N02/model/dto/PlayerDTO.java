@@ -9,10 +9,12 @@ import java.util.Objects;
 @Setter
 public class PlayerDTO {
 
+
     private String username;
     private Float winRate;
 
     public PlayerDTO(String username, Float winRate){
         this.username = Objects.requireNonNull(username, "UNKNOWN");
+        this.winRate = winRate;
     }
 }

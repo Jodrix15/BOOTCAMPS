@@ -33,6 +33,7 @@ public class Player implements UserDetails {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "win_rate")
     private Float winRate;
 
     @Column(nullable = false, updatable = false, insertable = false)
