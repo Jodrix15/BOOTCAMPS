@@ -1,11 +1,11 @@
 package com.itacademy.barcelonactiva.HornosJordi.S5T01N02.model.repository;
 
 import com.itacademy.barcelonactiva.HornosJordi.S5T01N02.model.domain.Player;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-import java.util.Optional;
 
-public interface PlayerRepository extends JpaRepository<Player, Integer> {
+
+public interface PlayerRepository extends MongoRepository<Player, String> {
     Player findByUsername(String username);
 
 }

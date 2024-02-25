@@ -11,9 +11,9 @@ public class PlayerDTO {
 
 
     private String username;
-    private Float winRate;
+    private Double winRate;
 
-    public PlayerDTO(String username, Float winRate){
+    public PlayerDTO(String username, Double winRate){
         this.username = Objects.requireNonNull(username, "UNKNOWN");
         this.winRate = winRate;
     }

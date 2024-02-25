@@ -29,19 +29,19 @@ public class GameController {
     }
 
     @PutMapping("/players/{id}")
-    public ResponseEntity<String> modificarPlayer(@PathVariable("id") Integer id, @RequestBody PlayerDTORequest playerDTO){
+    public ResponseEntity<String> modificarPlayer(@PathVariable("id") String id, @RequestBody PlayerDTORequest playerDTO){
         playerService.updatePlayer(id, playerDTO);
         return new ResponseEntity<>("Jugador modificado correctamente", HttpStatus.OK);
     }
 
     @PostMapping("/players/{id}/games")
-    public ResponseEntity<GameDTO> play(@PathVariable("id") Integer id){
+    public ResponseEntity<GameDTO> play(@PathVariable("id") String id){
         GameDTO game = playerService.playGame(id);
         return new ResponseEntity<>(game, HttpStatus.OK);
     }
 
     @DeleteMapping("/players/{id}/games")
-    public ResponseEntity<String> deletePlayerGames(@PathVariable("id") Integer id){
+    public ResponseEntity<String> deletePlayerGames(@PathVariable("id") String id){
         playerService.deleteAllGames(id);
         return new ResponseEntity<>("Las partidas del jugador han sido eliminadas correctamente", HttpStatus.OK);
     }
@@ -57,7 +57,7 @@ public class GameController {
         return new ResponseEntity<>(rateList, HttpStatus.OK);
     }
     @GetMapping("/players/{id}/games")
-    public ResponseEntity<List<GameDTO>> getPlayerGames(@PathVariable("id") Integer id){
+    public ResponseEntity<List<GameDTO>> getPlayerGames(@PathVariable("id") String id){
         List<GameDTO> games = playerService.getAllGames(id);
         return new ResponseEntity<>(games, HttpStatus.OK);
     }

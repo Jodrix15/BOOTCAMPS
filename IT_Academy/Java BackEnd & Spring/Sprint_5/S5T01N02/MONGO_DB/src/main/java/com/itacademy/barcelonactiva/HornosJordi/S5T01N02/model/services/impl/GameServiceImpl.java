@@ -29,14 +29,14 @@ public class GameServiceImpl implements GameServices {
     public List<GameDTO> getAllGames(Player player) {
         List<Game> gamesList = gameRepository.findByPlayer(player);
         List<GameDTO> gaDTOList = new ArrayList<>();
-        gamesList.stream().toList().forEach(g -> gaDTOList.add(Game2DTO(g)));
+        gamesList.forEach(g -> gaDTOList.add(Game2DTO((g))));
         return gaDTOList;
     }
 
     @Override
     public void deleteAllGames(Player player) {
         List<Game> games = gameRepository.findByPlayer(player);
-        games.forEach((gameRepository::delete));
+        gameRepository.deleteAll(games);
 
     }
 

@@ -28,7 +28,7 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public Player getPlayer(Integer id) {
+    public Player getPlayer(String id) {
         return playerRepository.findById(id)
                 .orElseThrow(() -> new PlayerNotFoundException("Jugador no encontrado"));
     }
@@ -47,7 +47,7 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public GameDTO playGame(Integer id) {
+    public GameDTO playGame(String id) {
         Player player = getPlayer(id);
         GameDTO gameDTO = gameServices.addGame(player);
         updateWinRate(player, gameDTO);
@@ -55,12 +55,12 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public List<GameDTO> getAllGames(Integer id) {
+    public List<GameDTO> getAllGames(String id) {
         return gameServices.getAllGames(getPlayer(id));
     }
 
     @Override
-    public void deleteAllGames(Integer id) {
+    public void deleteAllGames(String id) {
         Player player = getPlayer(id);
         gameServices.deleteAllGames(player);
         player.setWinRate(null);
@@ -81,15 +81,17 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public double getAVGWinRates() {
-
-        return getWinRates().stream().filter(p -> p.getWinRate() != null)
-                .mapToDouble(PlayerDTO::getWinRate).average()
-                .orElseThrow(() -> new GameNotFoundException("Juego no encontrado"));
+        List<Player> players = getAllPlayers();
+        Double totalWinRates = players.stream()
+                .filter(player -> player.getWinRate() != null)
+                .mapToDouble(Player::getWinRate)
+                .sum();
+        return totalWinRates / (double) players.size();
     }
 
     @Override
     public PlayerDTO getWinner() {
-        return getWinRates().stream().filter(p -> p.getWinRate() != null)
+        return getWinRates().stream()
                 .max(Comparator.comparing(PlayerDTO::getWinRate))
                 .orElseThrow(() -> new GameNotFoundException("No hay partidas jugadas"));
     }
@@ -97,7 +99,7 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
 
     public PlayerDTO getLoser() {
-        return getWinRates().stream().filter(p -> p.getWinRate() != null)
+        return getWinRates().stream()
                 .min(Comparator.comparing(PlayerDTO::getWinRate))
                 .orElseThrow(() -> new GameNotFoundException("No hay partidas jugadas"));
 
@@ -109,7 +111,7 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public void updatePlayer(Integer id, PlayerDTORequest playerDTO) {
+    public void updatePlayer(String id, PlayerDTORequest playerDTO) {
         Player player = getPlayer(id);
         Player playerEntityExisting = playerRepository.findByUsername(playerDTO.getUsername());
         if(playerEntityExisting != null){
@@ -130,7 +132,7 @@ public class PlayerServiceImpl implements PlayerService {
         if(!playerDTO.getUsername().equalsIgnoreCase("ANONIMO")){
             Player playerEntityExisting = playerRepository.findByUsername(playerDTO.getUsername());
 
-            if(playerEntityExisting != null && !playerEntityExisting.getUsername().equalsIgnoreCase("ANONIMO")) {
+            if(playerEntityExisting != null) {
                 if (playerEntityExisting.getUsername().equalsIgnoreCase(playerDTO.getUsername())) {
                     throw new UsernameInUsedException("username no disponible");
 
@@ -149,13 +151,13 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     private void updateWinRate(Player player, GameDTO gameDTO){
-        Float winRate = player.getWinRate();
-        float victory = 0.0f;
+        Double winRate = player.getWinRate();
+        double victory = 0.0f;
         if(gameDTO.isSeven()){
-            victory = 1.0f;
+            victory = 1.0;
         }
         else{
-            victory = 0.0f;
+            victory = 0.0;
         }
         if(winRate == null){
 

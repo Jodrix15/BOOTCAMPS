@@ -10,17 +10,17 @@ import java.util.List;
 public interface PlayerService {
 
     public List<PlayerDTO> getAllPlayersDTO();
-    public Player getPlayer(Integer id);
+    public Player getPlayer(String id);
     public List<Player> getAllPlayers();
-    public GameDTO playGame(Integer id);
-    public List<GameDTO> getAllGames(Integer id);
-    public void deleteAllGames(Integer id);
+    public GameDTO playGame(String id);
+    public List<GameDTO> getAllGames(String id);
+    public void deleteAllGames(String id);
     public List<PlayerDTO> getWinRates();
     public double getAVGWinRates();
     public PlayerDTO getWinner();
     public PlayerDTO getLoser();
     public PlayerDTO player2DTO(Player player);
-    public void updatePlayer(Integer id, PlayerDTORequest player);
+    public void updatePlayer(String id, PlayerDTORequest player);
     public void addPlayer(PlayerDTORequest player);
     public Player DTO2Player(PlayerDTORequest player);
     

@@ -1,37 +1,27 @@
 package com.itacademy.barcelonactiva.HornosJordi.S5T01N02.model.domain;
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.SourceType;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity
-@Table(name = "games")
+@Document(collection = "games")
 public class Game {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private String id;
 
-    @ManyToOne
     private Player player;
 
-    @Column(name="firstDice", nullable= false)
     private int dice1;
-
-    @Column(name="secondDice", nullable = false)
     private int dice2;
-
-    @Column(nullable = false, updatable = false, insertable = false)
-    @CreationTimestamp(source = SourceType.DB)
-    private Timestamp playedTime;
+    private LocalDateTime playedTime;
 
     public Game(Player player, int dice1, int dice2){
         this.player = player;
